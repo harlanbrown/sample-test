@@ -6,6 +6,9 @@
     <scriptedOperation id="as1">
        <script>
          function run(input, params) {
+           Auth.LoginAs(input, {
+             'name':'jdoe'
+           });
            Document.AddPermission(input, {
              'permission': 'ReadAndDownload',
              'username': 'members'
