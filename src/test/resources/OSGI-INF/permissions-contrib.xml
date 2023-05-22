@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<component name="org.nuxeo.sample.sample-test.permissions" version="1.0">
+
+  <extension target="org.nuxeo.ecm.core.security.SecurityService" point="permissions">
+    <permission name="Download"></permission>
+
+    <permission name="ReadAndDownload">
+      <include>Read</include>
+      <include>Download</include>
+    </permission>
+  </extension>
+
+</component>

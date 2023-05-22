@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<component name="org.nuxeo.sample.sample-test.scripts" version="1.0">
+
+  <extension target="org.nuxeo.automation.scripting.internals.AutomationScriptingComponent" point="operation">
+
+    <scriptedOperation id="as1">
+       <script>
+         function run(input, params) {
+           Document.AddPermission(input, {
+             'permission': 'ReadAndDownload',
+             'username': 'members'
+           });
+         }
+       </script>
+    </scriptedOperation>
+
+  </extension>
+</component>
