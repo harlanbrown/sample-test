@@ -54,5 +54,9 @@ public class TestSample2 {
         Document doc = documentSession.getDocumentByUUID(id);
         String lifeCycle = doc.getLifeCycleState();
         assertEquals(lifeCycle, "project");
+
+        DocumentModel doc2 = session.getDocument(new PathRef("/test"));
+        String lifeCycle2 = doc2.getCurrentLifeCycleState();
+        assertEquals(lifeCycle2, "project");
     }
 }
