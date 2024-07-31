@@ -33,6 +33,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 @RunWith(FeaturesRunner.class)
 @Features(AutomationFeature.class)
 @RepositoryConfig(init = DefaultRepositoryInit.class, cleanup = Granularity.METHOD)
+@Deploy("org.nuxeo.sample.sample-test.tests:OSGI-INF/doctype-contrib.xml")
 public class TestSample2 {
 
     @Inject
@@ -44,6 +45,7 @@ public class TestSample2 {
     public void setUp() {
         DocumentModel fil1 = session.createDocumentModel("/", "test", "File");
         fil1 = session.createDocument(fil1);
+        fil1.addFacet("myFacet");
         session.save();
         id = fil1.getId();
     }
