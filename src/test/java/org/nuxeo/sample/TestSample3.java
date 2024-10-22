@@ -1,6 +1,7 @@
 package org.nuxeo.sample;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +35,7 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 @Features(AutomationFeature.class)
 @RepositoryConfig(init = DefaultRepositoryInit.class, cleanup = Granularity.METHOD)
 @Deploy("org.nuxeo.sample.sample-test.tests:OSGI-INF/doctype-contrib.xml")
-public class TestSample2 {
+public class TestSample3 {
 
     @Inject
     protected CoreSession session;
@@ -45,7 +46,6 @@ public class TestSample2 {
     public void setUp() {
         DocumentModel fil1 = session.createDocumentModel("/", "test", "File");
         fil1 = session.createDocument(fil1);
-        fil1.addFacet("myFacet");
         session.save();
         id = fil1.getId();
     }
@@ -54,11 +54,10 @@ public class TestSample2 {
     public void run() throws OperationException {
         Session documentSession = ((AbstractSession) session).getSession();
         Document doc = documentSession.getDocumentByUUID(id);
-        String lifeCycle = doc.getLifeCycleState();
-        assertEquals(lifeCycle, "project");
+        doc.addFacet("myFacet");
+        assertTrue(doc.hasFacet("myFacet"));
 
         DocumentModel doc2 = session.getDocument(new PathRef("/test"));
-        String lifeCycle2 = doc2.getCurrentLifeCycleState();
-        assertEquals(lifeCycle2, "project");
+        assertTrue(doc.hasFacet("myFacet"));
     }
 }
