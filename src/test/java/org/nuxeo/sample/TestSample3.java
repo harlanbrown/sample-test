@@ -13,6 +13,7 @@ import org.nuxeo.ecm.automation.AutomationService;
 import org.nuxeo.ecm.automation.OperationContext;
 import org.nuxeo.ecm.automation.OperationException;
 import org.nuxeo.ecm.automation.test.AutomationFeature;
+//import org.nuxeo.ecm.platform.test.PlatformFeature;
 import org.nuxeo.ecm.core.api.AbstractSession;
 import org.nuxeo.ecm.core.api.CoreInstance;
 import org.nuxeo.ecm.core.api.CoreSession;
@@ -35,29 +36,24 @@ import org.nuxeo.runtime.test.runner.FeaturesRunner;
 @Features(AutomationFeature.class)
 @RepositoryConfig(init = DefaultRepositoryInit.class, cleanup = Granularity.METHOD)
 @Deploy("org.nuxeo.sample.sample-test.tests:OSGI-INF/doctype-contrib.xml")
+@Deploy("org.nuxeo.ecm.platform.thumbnail")
 public class TestSample3 {
 
     @Inject
     protected CoreSession session;
 
-    String id;
-
     @Before
     public void setUp() {
         DocumentModel fil1 = session.createDocumentModel("/", "test", "File");
         fil1 = session.createDocument(fil1);
+        fil1.addFacet("Thumbnail");
+        session.saveDocument(fil1);
         session.save();
-        id = fil1.getId();
     }
 
     @Test
     public void run() throws OperationException {
-        Session documentSession = ((AbstractSession) session).getSession();
-        Document doc = documentSession.getDocumentByUUID(id);
-        doc.addFacet("myFacet");
-        assertTrue(doc.hasFacet("myFacet"));
-
-        DocumentModel doc2 = session.getDocument(new PathRef("/test"));
-        assertTrue(doc.hasFacet("myFacet"));
+        DocumentModel doc = session.getDocument(new PathRef("/test"));
+        assertTrue(doc.hasFacet("Thumbnail"));
     }
 }
